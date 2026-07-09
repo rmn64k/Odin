@@ -493,6 +493,7 @@ gb_internal bool find_or_generate_polymorphic_procedure(CheckerContext *old_c, E
 				if (poly_proc_data) {
 					poly_proc_data->gen_entity = other;
 				}
+				check_polymorphic_generated_proc_deferred(old_c, other, base_entity, poly_def_node);
 				return true;
 			}
 		}
@@ -533,6 +534,7 @@ gb_internal bool find_or_generate_polymorphic_procedure(CheckerContext *old_c, E
 				if (poly_proc_data) {
 					poly_proc_data->gen_entity = other;
 				}
+				check_polymorphic_generated_proc_deferred(old_c, other, base_entity, poly_def_node);
 
 				DeclInfo *decl = other->decl_info;
 				if (decl->proc_checked_state != ProcCheckedState_Checked) {
@@ -629,6 +631,8 @@ gb_internal bool find_or_generate_polymorphic_procedure(CheckerContext *old_c, E
 	rw_mutex_lock(&gen_procs->mutex); // @local-mutex
 		array_add(&gen_procs->procs, entity);
 	rw_mutex_unlock(&gen_procs->mutex); // @local-mutex
+
+	check_polymorphic_generated_proc_deferred(old_c, entity, base_entity, poly_def_node);
 
 	ProcInfo *proc_info = permanent_alloc_item<ProcInfo>();
 	proc_info->file  = file;

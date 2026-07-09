@@ -35,6 +35,11 @@ set COMMON=-define:ODIN_TEST_FANCY=false -file -vet -strict-style -ignore-unused
 ..\..\..\odin test ..\test_pr_6470.odin %COMMON%  || exit /b
 ..\..\..\odin test ..\test_pr_6470.odin -define:TEST_EXPECT_FAILURE=true %COMMON% 2>&1 | find /c "Error:" | findstr /x "1" || exit /b
 ..\..\..\odin test ..\test_pr_6476.odin %COMMON%  || exit /b
+..\..\..\odin test ..\test_poly_deferred.odin %COMMON%  || exit /b
+..\..\..\odin build ..\test_poly_deferred_failure.odin %COMMON% 2>&1 | find /c "Error:" | findstr /x "1" || exit /b
+..\..\..\odin build ..\test_poly_deferred_self_cycle.odin %COMMON% 2>&1 | find /c "Error:" | findstr /x "1" || exit /b
+..\..\..\odin build ..\test_poly_deferred_disabled_duplicate.odin %COMMON%  || exit /b
+..\..\..\odin test ..\test_poly_deferred_dependency.odin %COMMON%  || exit /b
 ..\..\..\odin check ..\test_issue_6484.odin -no-entry-point %COMMON%  || exit /b
 ..\..\..\odin check ..\test_issue_6874.odin %COMMON% 2>&1 | find /c "Error:" | findstr /x "1" || exit /b
 

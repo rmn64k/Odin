@@ -106,6 +106,7 @@ enum DeferredProcedureKind {
 struct DeferredProcedure {
 	DeferredProcedureKind kind;
 	Entity *entity;
+	Ast *attribute;
 };
 
 
